@@ -27,7 +27,7 @@ public class UserRepository {
 
     public User findById(Long id) {
 
-        List<User> temp = jdbcTemplate.query("select * from jpa.users where id = ?",
+        List<User> temp = jdbcTemplate.query("select * from users where id = ?",
                 new Object[]{id}, ROW_MAPPER);
         return temp.isEmpty() ? null : temp.get(0);
     }
@@ -35,7 +35,7 @@ public class UserRepository {
     public User save(User user) {
 
         if (user.getId() == null && !existsByUsername(user.getUsername())) {
-            jdbcTemplate.update("insert into jpa.users (username, password) values (?, ?)",
+            jdbcTemplate.update("insert into users (username, password) values (?, ?)",
                     user.getUsername(), user.getPassword());
         } else {
 
@@ -43,26 +43,26 @@ public class UserRepository {
                     findByUsername((user.getUsername())).getId() != user.getId())
                 return null;
 
-            jdbcTemplate.update("update jpa.users set username = ?, password = ? where id = ?",
+            jdbcTemplate.update("update users set username = ?, password = ? where id = ?",
                     user.getUsername(), user.getPassword(), user.getId());
         }
         return findByUsername(user.getUsername());
     }
 
     public int delete(Long id) {
-        return jdbcTemplate.update("delete from jpa.users where id = ?", id);
+        return jdbcTemplate.update("delete from users where id = ?", id);
     }
 
     public User findByUsernameAndPassword(String username, String password) {
 
-        List<User> temp = jdbcTemplate.query("select * from jpa.users where username = ? " +
+        List<User> temp = jdbcTemplate.query("select * from users where username = ? " +
                 "and password = ?", new Object[]{username, password}, ROW_MAPPER);
         return temp.isEmpty() ? null : temp.get(0);
     }
 
     public User findByUsername(String username) {
 
-        List<User> temp = jdbcTemplate.query("select * from jpa.users where username = ?",
+        List<User> temp = jdbcTemplate.query("select * from users where username = ?",
                 new Object[]{username}, ROW_MAPPER);
         return temp.isEmpty() ? null : temp.get(0);
     }
