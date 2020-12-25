@@ -22,7 +22,7 @@ public class UserRepository {
     };
 
     public List<User> findAll() {
-        return jdbcTemplate.query("select * from jpa.users", ROW_MAPPER);
+        return jdbcTemplate.query("select * from users", ROW_MAPPER);
     }
 
     public User findById(Long id) {
